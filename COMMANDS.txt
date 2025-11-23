@@ -1,0 +1,199 @@
+═══════════════════════════════════════════════════════════════════════════════
+                      SimpleOS - Windows 操作系统项目
+                              命令快速参考
+═══════════════════════════════════════════════════════════════════════════════
+
+📍 项目位置: c:\Users\mfanq\OneDrive\Desktop\cos
+
+═══════════════════════════════════════════════════════════════════════════════
+                           🚀 快速开始 (推荐)
+═══════════════════════════════════════════════════════════════════════════════
+
+1️⃣  安装 WSL:
+    PowerShell (管理员) → wsl --install → 重启
+
+2️⃣  打开 Ubuntu:
+    搜索"Ubuntu"并打开，或运行 wsl
+
+3️⃣  自动设置:
+    cd /mnt/c/Users/mfanq/OneDrive/Desktop/cos
+    bash setup.sh
+
+4️⃣  运行 OS:
+    make run
+
+═══════════════════════════════════════════════════════════════════════════════
+                           📋 所有可用命令
+═══════════════════════════════════════════════════════════════════════════════
+
+在 Windows PowerShell 中:
+──────────────────────────────────────────────────────────────────────────────
+
+1. 使用 WSL 构建 (推荐):
+   .\build.ps1 run         # 编译并运行
+   .\build.ps1 build       # 仅编译
+   .\build.ps1 debug       # 调试模式
+   .\build.ps1 clean       # 清理
+   .\build.ps1 wsl         # 打开 WSL 终端
+
+2. 原生 Windows 构建 (需要安装工具):
+   .\build-native.ps1 run           # 编译并运行
+   .\build-native.ps1 build         # 仅编译
+   .\build-native.ps1 debug         # 调试模式
+   .\build-native.ps1 clean         # 清理
+   .\build-native.ps1 check-tools   # 检查工具
+
+3. 使用批处理脚本:
+   .\build.bat run         # 编译并运行
+   .\build.bat build       # 仅编译
+   .\build.bat debug       # 调试模式
+   .\build.bat clean       # 清理
+   .\build.bat help        # 帮助
+
+
+在 WSL (Ubuntu) 中:
+──────────────────────────────────────────────────────────────────────────────
+
+cd /mnt/c/Users/mfanq/OneDrive/Desktop/cos
+
+make clean              # 清理
+make all                # 编译
+make run                # 运行
+make debug              # 调试
+bash setup.sh           # 自动设置并运行
+
+═══════════════════════════════════════════════════════════════════════════════
+                            📁 文件说明
+═══════════════════════════════════════════════════════════════════════════════
+
+脚本文件:
+  build.ps1             - PowerShell 构建脚本 (推荐使用)
+  build-native.ps1      - 原生 Windows 构建脚本
+  build.bat             - 批处理构建脚本
+  build.ps1             - PowerShell 辅助脚本
+  setup.sh              - WSL 自动安装脚本
+
+源代码:
+  boot/boot.asm         - 引导加载程序
+  kernel/kernel.c       - C 内核代码
+  kernel/kernel_entry.asm - 32 位入口
+  kernel/kernel.h       - 头文件
+
+配置:
+  Makefile              - GNU Make 配置 (在 WSL 中使用)
+  .vscode/              - VS Code 配置
+
+文档:
+  00_START_HERE_FIRST.txt - 快速开始指南
+  START_HERE.md         - 详细指南
+  QUICKSTART.md         - 3 步启动
+  TOOLS_SETUP.md        - 工具安装指南
+  WINDOWS_SETUP.md      - Windows 详细设置
+  PROJECT_OVERVIEW.md   - 项目结构
+  README.md             - 完整技术文档
+
+═══════════════════════════════════════════════════════════════════════════════
+                         ⚙️  常见操作步骤
+═══════════════════════════════════════════════════════════════════════════════
+
+开发工作流:
+  1. .\build.ps1 build         # 编译
+  2. 修改源代码 (kernel.c 等)
+  3. .\build.ps1 run           # 测试
+  4. 重复步骤 2-3
+
+调试流程:
+  1. .\build.ps1 debug         # 启动 QEMU + GDB 服务
+  2. 打开另一个终端
+  3. gdb build\kernel.elf
+  4. (gdb) target remote localhost:1234
+  5. (gdb) break kernel_main
+  6. (gdb) continue
+
+完全清理:
+  .\build.ps1 clean
+  rm -r build
+  git clean -fd
+
+═══════════════════════════════════════════════════════════════════════════════
+                           ✅ 系统要求
+═══════════════════════════════════════════════════════════════════════════════
+
+最小配置:
+  OS: Windows 10 (版本 2004+) 或 Windows 11
+  RAM: 4 GB
+  硬盘: 2 GB
+
+推荐配置:
+  OS: Windows 11
+  RAM: 8+ GB
+  硬盘: 10 GB (SSD 更快)
+
+工具 (WSL 自动安装):
+  ✓ WSL 2
+  ✓ Ubuntu 20.04+
+  ✓ NASM
+  ✓ GCC 交叉编译器
+  ✓ QEMU
+  ✓ GNU Make
+  ✓ GDB
+
+═══════════════════════════════════════════════════════════════════════════════
+                            🆘 问题排除
+═══════════════════════════════════════════════════════════════════════════════
+
+问题: 无法找到 make
+解决: 使用 WSL (推荐) 或安装 GNU Make
+
+问题: 编译失败 "gcc not found"
+解决: 
+  - 使用 WSL: wsl
+  - 或安装交叉编译器
+
+问题: QEMU 无法启动
+解决:
+  - 确保 build/os.img 存在
+  - 重新编译: .\build.ps1 clean; .\build.ps1 build
+
+问题: WSL 安装失败
+解决:
+  - 检查 Windows 版本 (需要 2004+)
+  - 启用虚拟化 (BIOS)
+  - 参考: https://docs.microsoft.com/windows/wsl/install
+
+═══════════════════════════════════════════════════════════════════════════════
+                           📚 相关文档
+═══════════════════════════════════════════════════════════════════════════════
+
+快速指南:
+  1. START_HERE.md        - 项目概览
+  2. QUICKSTART.md        - 3 步启动
+  3. TOOLS_SETUP.md       - 工具安装
+
+详细文档:
+  - PROJECT_OVERVIEW.md   - 项目架构
+  - WINDOWS_SETUP.md      - Windows 配置
+  - README.md             - 技术细节
+
+在线资源:
+  - OSDev Wiki: https://wiki.osdev.org/
+  - GCC 编译器: https://wiki.osdev.org/GCC_Cross-Compiler
+  - x86 汇编: https://wiki.osdev.org/X86
+  - QEMU: https://qemu.readthedocs.io/
+
+═══════════════════════════════════════════════════════════════════════════════
+                            💡 提示
+═══════════════════════════════════════════════════════════════════════════════
+
+✓ WSL 是 Windows 上最简单的方案
+✓ 第一次运行 setup.sh 会自动安装所有依赖
+✓ 修改 kernel.c 后只需运行 make all
+✓ 使用 make debug 和 GDB 进行代码级调试
+✓ build/os.img 是可启动的磁盘镜像
+
+═══════════════════════════════════════════════════════════════════════════════
+
+现在就开始吧: .\build.ps1 run
+或访问: START_HERE.md
+
+═══════════════════════════════════════════════════════════════════════════════
